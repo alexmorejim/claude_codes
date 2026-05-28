@@ -28,3 +28,16 @@ barras por boleto. Guarda los datos en el navegador (localStorage); no maneja
 dinero real, solo registra tus apuestas.
 
 Para usarla: abre `parlay-tracker/index.html` en el navegador (doble clic).
+
+### `ai-trader/`
+Bot de trading **real** en Python conectado a Alpaca (bróker regulado con API).
+Tu dinero vive en tu cuenta de Alpaca; el código solo manda órdenes ahí con tus
+llaves. Incluye una estrategia fundamental (puntúa un universo con datos de
+Yahoo Finance y elige las mejores) y comandos para ver cuenta/posiciones, comprar,
+vender, invertir y rebalancear. Arranca en *paper* (práctica); para dinero real
+cambias `ALPACA_PAPER=false`. No es asesoría financiera.
+
+```bash
+cd ai-trader && pip install -r requirements.txt && cp .env.example .env
+python trader.py strategy        # prueba la estrategia (no necesita llaves)
+```
