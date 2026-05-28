@@ -18,3 +18,13 @@ python3 tech_analysis.py
 ```
 
 Produce `data.json` (datos puntuados) y `Analisis_Tecnologicas.docx` (reporte).
+
+### `parlay-tracker/`
+App web de un solo archivo (`index.html`) para registrar apuestas tipo parlay
+y ver cómo va tu dinero con gráficas. Calcula automáticamente momios
+combinados, pago potencial, probabilidad implícita, ganancia/pérdida, ROI y
+win rate; incluye gráfica de evolución de la banca, dona de resultados y
+barras por boleto. Guarda los datos en el navegador (localStorage); no maneja
+dinero real, solo registra tus apuestas.
+
+Para usarla: abre `parlay-tracker/index.html` en el navegador (doble clic).
