@@ -44,7 +44,11 @@ def fetch_markets(min_vol, query=""):
         vol = float(m.get("volume24hr") or 0)
         if len(toks) != 2 or len(prices) != 2 or vol < min_vol:
             continue
-        out.append({"q": q, "outcomes": outs, "prices": prices, "tokens": toks, "vol": vol})
+        ev = (m.get("events") or [{}])[0]
+        slug = ev.get("slug") or m.get("slug")
+        url = f"https://polymarket.com/event/{slug}" if slug else "https://polymarket.com"
+        out.append({"q": q, "outcomes": outs, "prices": prices, "tokens": toks,
+                    "vol": vol, "url": url})
     return out
 
 
@@ -85,7 +89,7 @@ def analyze(markets, bankroll, k, kfrac, max_bet_frac, min_edge, lo, hi):
             if stake < 1:
                 continue
             cand = {"q": m["q"], "side": out, "price": c, "p": p, "edge": edge,
-                    "stake": stake, "w": f, "tok": tok, "vol": m["vol"]}
+                    "stake": stake, "w": f, "tok": tok, "vol": m["vol"], "url": m["url"]}
             if best is None or cand["edge"] > best["edge"]:
                 best = cand
         if best:
@@ -134,7 +138,8 @@ def main():
               f"prob. mercado {r['price']*100:.0f}% → estimada {r['p']*100:.0f}%   "
               f"ventaja {G}+{r['edge']*100:.1f}%{E}")
         print(f"   {B}meter ${r['stake']:.2f}{E}  → si gana +${gana:.2f}  "
-              f"{DIM}(vol 24h ${r['vol']:,.0f}){E}\n")
+              f"{DIM}(vol 24h ${r['vol']:,.0f}){E}")
+        print(f"   {DIM}{r['url']}{E}\n")
     print(f"{B}Total a desplegar: ${total:.2f}{E} de ${a.bankroll:.0f}  "
           f"({DIM}deja ${a.bankroll-total:.2f} en reserva{E})")
     print(f"\n{Y}Recuerda:{E} esto explota un sesgo pequeño y discutible; las comisiones/spread "
